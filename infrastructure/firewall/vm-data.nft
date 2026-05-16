@@ -1,0 +1,31 @@
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        iif "lo" accept
+        ct state established,related accept
+
+        # SSH
+        tcp dport 22 accept
+
+        # Kafka (9092) from Ingest and Core
+        # ip saddr { $IP_INGEST, $IP_CORE } tcp dport 9092 accept
+        tcp dport 9092 accept
+
+        # RabbitMQ (5672) from Core and App
+        # ip saddr { $IP_CORE, $IP_APP } tcp dport 5672 accept
+        tcp dport 5672 accept
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy accept;
+    }
+
+    chain output {
+        type filter hook output priority 0; policy accept;
+    }
+}

@@ -1,0 +1,28 @@
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        iif "lo" accept
+        ct state established,related accept
+
+        # SSH
+        tcp dport 22 accept
+
+        # Auth Server (443) from other zones
+        # Replace with specific IPs for production:
+        # ip saddr { $IP_INGEST, $IP_CORE, $IP_APP } tcp dport 443 accept
+        tcp dport 443 accept
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy accept;
+    }
+
+    chain output {
+        type filter hook output priority 0; policy accept;
+    }
+}

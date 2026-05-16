@@ -1,0 +1,33 @@
+services:
+  alert-dispatcher:
+    build:
+      context: ../../../
+      args:
+        - SERVICE_NAME=alert-dispatcher
+    environment:
+      - AUTH_URL=${AUTH_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+    restart: always
+
+  dashboard-backend:
+    build:
+      context: ../../../
+      args:
+        - SERVICE_NAME=dashboard-backend
+    environment:
+      - AUTH_URL=${AUTH_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    restart: always
+
+  query-client:
+    build:
+      context: ../../../
+      args:
+        - SERVICE_NAME=query-client
+    environment:
+      - AUTH_URL=${AUTH_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+    restart: always

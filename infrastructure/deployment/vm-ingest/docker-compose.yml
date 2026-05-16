@@ -1,0 +1,10 @@
+services:
+  traffic-sensor:
+    build:
+      context: ../../../
+      args:
+        - SERVICE_NAME=traffic-sensor
+    environment:
+      - AUTH_URL=${AUTH_URL}
+      - KAFKA_BROKERS=${KAFKA_BROKERS}
+    restart: always

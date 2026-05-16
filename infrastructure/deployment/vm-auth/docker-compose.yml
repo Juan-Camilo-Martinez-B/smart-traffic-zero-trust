@@ -1,0 +1,12 @@
+services:
+  auth-server:
+    build:
+      context: ../../../
+      args:
+        - SERVICE_NAME=auth-server
+    environment:
+      - PORT=443
+      - JWT_SECRET=super_secret_jwt_key_123
+    ports:
+      - "443:443"
+    restart: always

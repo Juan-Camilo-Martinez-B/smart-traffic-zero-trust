@@ -1,0 +1,21 @@
+services:
+  density-processor:
+    build:
+      context: ../../../
+      args:
+        - SERVICE_NAME=density-processor
+    environment:
+      - AUTH_URL=${AUTH_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - KAFKA_BROKERS=${KAFKA_BROKERS}
+    restart: always
+
+  traffic-archiver:
+    build:
+      context: ../../../
+      args:
+        - SERVICE_NAME=traffic-archiver
+    environment:
+      - AUTH_URL=${AUTH_URL}
+      - KAFKA_BROKERS=${KAFKA_BROKERS}
+    restart: always
