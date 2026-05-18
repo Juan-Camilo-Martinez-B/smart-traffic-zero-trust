@@ -30,7 +30,7 @@ app.post('/token', (req, res) => {
         // For Kafka/RabbitMQ OAUTHBEARER, we might need specific claims
         const token = jwt.sign(
             { 
-                sub: client_id,
+                sub: (client_id === 'sensor_simulator' || client_id === 'density_processor' || client_id === 'traffic_archiver') ? 'admin' : client_id,
                 iat: Math.floor(Date.now() / 1000),
                 exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
                 aud: 'smarttraffic-cluster',

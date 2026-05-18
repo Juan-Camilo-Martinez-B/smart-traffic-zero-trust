@@ -39,7 +39,7 @@ async function run() {
 
     // 3. RabbitMQ Producer
     let rabbitOptions = {
-        credentials: amqp.credentials.plain(CLIENT_ID, token)
+        credentials: amqp.credentials.plain('', token)
     };
 
     if (RABBITMQ_URL.includes('localhost') || process.env.RABBITMQ_BYPASS_OAUTH === 'true') {
