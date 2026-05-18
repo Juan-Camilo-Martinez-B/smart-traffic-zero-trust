@@ -38,7 +38,10 @@ app.post('/token', (req, res) => {
                 scope: 'smarttraffic-cluster.read:*/* smarttraffic-cluster.write:*/* smarttraffic-cluster.configure:*/* smarttraffic-cluster.tag:administrator smarttraffic-cluster.tag:management'
             }, 
             JWT_SECRET,
-            { algorithm: 'HS256' }
+            { 
+                algorithm: 'HS256',
+                header: { kid: 'hs256' }
+            }
         );
 
         console.log(`Token issued for: ${client_id}`);
