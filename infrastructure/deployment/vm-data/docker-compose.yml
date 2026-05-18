@@ -27,6 +27,8 @@ services:
       KAFKA_LISTENER_NAME_SASL__PLAINTEXT_OAUTHBEARER_SASL_SERVER_CALLBACK_HANDLER_CLASS: org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerValidatorCallbackHandler
       KAFKA_LISTENER_NAME_SASL__PLAINTEXT_OAUTHBEARER_SASL_JAAS_CONFIG: org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required unsecuredLoginStringClaim_sub="admin";
       KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf -Dzookeeper.sasl.client=false"
+      ZOOKEEPER_SASL_ENABLED: "FALSE"
+      KAFKA_ZOOKEEPER_SASL_ENABLED: "false"
     restart: always
 
   rabbitmq:
