@@ -34,6 +34,7 @@ services:
     volumes:
       - ../../broker-configs/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       - ../../broker-configs/advanced.config:/etc/rabbitmq/advanced.config
+      - ../../broker-configs/enabled_plugins:/etc/rabbitmq/enabled_plugins
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
