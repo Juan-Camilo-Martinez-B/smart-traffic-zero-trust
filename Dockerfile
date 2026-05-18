@@ -9,6 +9,10 @@ ENV NODE_ENV=production
 # Since we are building from the root, we need to pass the service name as an argument.
 ARG SERVICE_NAME
 
+# Copy root package.json for shared dependencies
+COPY package*.json ./
+RUN npm install --production
+
 # Copy the shared folder first
 COPY shared ./shared
 
