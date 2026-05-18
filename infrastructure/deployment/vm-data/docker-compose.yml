@@ -27,6 +27,8 @@ services:
 
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+      KAFKA_HEAP_OPTS: "-Xms256M -Xmx512M"
+
     restart: always
 
   rabbitmq:
