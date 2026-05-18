@@ -604,7 +604,7 @@ const HTML_CONTENT = `<!DOCTYPE html>
             updateGlobals();
 
             // Imprimir en terminal simulada
-            addTerminalLog(`Recibido evento Zona \${zone_id} | Vehículos: \${vehicle_count} | Velocidad: \${avg_speed} km/h | Densidad: \${density}`, logType);
+            addTerminalLog('Recibido evento Zona ' + zone_id + ' | Vehículos: ' + vehicle_count + ' | Velocidad: ' + avg_speed + ' km/h | Densidad: ' + density, logType);
         });
 
         function addTerminalLog(msg, type = 'info') {
@@ -616,7 +616,7 @@ const HTML_CONTENT = `<!DOCTYPE html>
 
             const log = document.createElement('div');
             log.className = 'log-entry';
-            log.innerHTML = `<span class="log-time">[\${time}]</span> <span class="\${colorClass}">\${msg}</span>`;
+            log.innerHTML = '<span class="log-time">[' + time + ']</span> <span class="' + colorClass + '">' + msg + '</span>';
             term.appendChild(log);
             term.scrollTop = term.scrollHeight;
 
