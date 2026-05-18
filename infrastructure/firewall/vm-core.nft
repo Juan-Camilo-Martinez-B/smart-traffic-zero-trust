@@ -2,14 +2,20 @@
 
 flush ruleset
 
+# =======================================================
+# ZERO TRUST FIREWALL CONFIGURATION - CORE ZONE
+# =======================================================
 table inet filter {
     chain input {
         type filter hook input priority 0; policy drop;
 
+        # Loopback
         iif "lo" accept
+
+        # Keep existing active connections
         ct state established,related accept
 
-        # SSH
+        # Allow SSH (Port 22)
         tcp dport 22 accept
     }
 

@@ -2,23 +2,32 @@
 
 flush ruleset
 
+# =======================================================
+# ZERO TRUST FIREWALL CONFIGURATION - DATA ZONE
+# =======================================================
+# Replace these with the actual private IPs of your EC2 instances:
+define IP_INGEST = 10.0.1.142
+define IP_CORE   = 10.0.1.111
+define IP_APP    = 10.0.1.146
+
 table inet filter {
     chain input {
         type filter hook input priority 0; policy drop;
 
+        # Loopback
         iif "lo" accept
+
+        # Keep existing active connections
         ct state established,related accept
 
-        # SSH
+        # Allow SSH (Port 22)
         tcp dport 22 accept
 
-        # Kafka (9092) from Ingest and Core
-        # ip saddr { $IP_INGEST, $IP_CORE } tcp dport 9092 accept
-        tcp dport 9092 accept
+        # Allow Kafka (Port 9092) ONLY from Ingest and Core zones
+        ip saddr { $IP_INGEST, $IP_CORE } tcp dport 9092 accept
 
-        # RabbitMQ (5672) from Core and App
-        # ip saddr { $IP_CORE, $IP_APP } tcp dport 5672 accept
-        tcp dport 5672 accept
+        # Allow RabbitMQ (Port 5672) ONLY from Core and App zones
+        ip saddr { $IP_CORE, $IP_APP } tcp dport 5672 accept
     }
 
     chain forward {

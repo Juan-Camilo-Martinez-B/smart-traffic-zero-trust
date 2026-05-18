@@ -2,20 +2,29 @@
 
 flush ruleset
 
+# =======================================================
+# ZERO TRUST FIREWALL CONFIGURATION - AUTH ZONE
+# =======================================================
+# Replace these with the actual private IPs of your EC2 instances:
+define IP_INGEST = 10.0.1.142
+define IP_CORE   = 10.0.1.111
+define IP_APP    = 10.0.1.146
+
 table inet filter {
     chain input {
         type filter hook input priority 0; policy drop;
 
+        # Loopback
         iif "lo" accept
+
+        # Keep existing active connections
         ct state established,related accept
 
-        # SSH
+        # Allow SSH (Port 22)
         tcp dport 22 accept
 
-        # Auth Server (443) from other zones
-        # Replace with specific IPs for production:
-        # ip saddr { $IP_INGEST, $IP_CORE, $IP_APP } tcp dport 443 accept
-        tcp dport 443 accept
+        # Allow HTTPS / Auth Service (Port 443) ONLY from specific zones
+        ip saddr { $IP_INGEST, $IP_CORE, $IP_APP } tcp dport 443 accept
     }
 
     chain forward {
