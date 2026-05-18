@@ -8,6 +8,7 @@ services:
       - AUTH_URL=${AUTH_URL}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - KAFKA_BROKERS=${KAFKA_BROKERS}
+      - KAFKA_BROKER=${KAFKA_BROKERS}
     restart: always
 
   traffic-archiver:
@@ -18,4 +19,5 @@ services:
     environment:
       - AUTH_URL=${AUTH_URL}
       - KAFKA_BROKERS=${KAFKA_BROKERS}
+      - KAFKA_BROKER=${KAFKA_BROKERS}
     restart: always

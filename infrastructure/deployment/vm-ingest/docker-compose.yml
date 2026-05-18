@@ -7,4 +7,5 @@ services:
     environment:
       - AUTH_URL=${AUTH_URL}
       - KAFKA_BROKERS=${KAFKA_BROKERS}
+      - KAFKA_BROKER=${KAFKA_BROKERS}
     restart: always
