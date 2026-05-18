@@ -34,7 +34,8 @@ app.post('/token', (req, res) => {
                 iat: Math.floor(Date.now() / 1000),
                 exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
                 aud: 'smarttraffic-cluster',
-                iss: 'auth-server'
+                iss: 'auth-server',
+                scope: 'smarttraffic-cluster.read:*/* smarttraffic-cluster.write:*/* smarttraffic-cluster.configure:*/* smarttraffic-cluster.tag:administrator smarttraffic-cluster.tag:management'
             }, 
             JWT_SECRET,
             { algorithm: 'HS256' }
