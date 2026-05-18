@@ -1,7 +1,7 @@
 require('dotenv').config();
 const amqp = require('amqplib');
 const { getAuthToken } = require('../shared/auth-helper');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 const CLIENT_ID = 'query_client';
 const CLIENT_SECRET = 'secret_query_222';
@@ -26,7 +26,7 @@ async function run() {
 
     setInterval(() => {
         const zone = zones[Math.floor(Math.random() * zones.length)];
-        const correlationId = uuidv4();
+        const correlationId = crypto.randomUUID();
 
         console.log(`[QUERY] Asking for status of zone ${zone}...`);
 
