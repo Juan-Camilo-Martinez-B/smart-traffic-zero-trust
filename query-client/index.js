@@ -12,7 +12,7 @@ async function run() {
     const token = await getAuthToken(CLIENT_ID, CLIENT_SECRET, AUTH_URL);
 
     let rabbitOptions = { credentials: amqp.credentials.plain(CLIENT_ID, token) };
-    if (RABBITMQ_URL.includes('localhost')) {
+    if (RABBITMQ_URL.includes('localhost') || process.env.RABBITMQ_BYPASS_OAUTH === 'true') {
         rabbitOptions = {};
     }
 

@@ -42,8 +42,8 @@ async function run() {
         credentials: amqp.credentials.plain(CLIENT_ID, token)
     };
 
-    if (RABBITMQ_URL.includes('localhost')) {
-        console.log('Local environment detected, using guest credentials for RabbitMQ');
+    if (RABBITMQ_URL.includes('localhost') || process.env.RABBITMQ_BYPASS_OAUTH === 'true') {
+        console.log('Local or bypassed environment detected, using guest credentials for RabbitMQ');
         rabbitOptions = {}; // Fallback for local
     }
 

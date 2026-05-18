@@ -16,7 +16,7 @@ async function run() {
 
     // RabbitMQ Setup
     let rabbitOptions = { credentials: amqp.credentials.plain(CLIENT_ID, token) };
-    if (RABBITMQ_URL.includes('localhost')) {
+    if (RABBITMQ_URL.includes('localhost') || process.env.RABBITMQ_BYPASS_OAUTH === 'true') {
         rabbitOptions = {};
     }
 
