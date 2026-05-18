@@ -12,6 +12,8 @@ services:
       - zookeeper
     ports:
       - "9092:9092"
+    volumes:
+      - ../../broker-configs/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
