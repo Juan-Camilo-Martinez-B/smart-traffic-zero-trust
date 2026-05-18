@@ -42,9 +42,11 @@ async function run() {
     setInterval(async () => {
         const zone = zones[Math.floor(Math.random() * zones.length)];
         const vehicleCount = Math.floor(Math.random() * 100);
+        const avgSpeed = vehicleCount > 70 ? Math.floor(Math.random() * 15) + 10 : (vehicleCount > 40 ? Math.floor(Math.random() * 25) + 25 : Math.floor(Math.random() * 40) + 50);
         const payload = {
             zone_id: zone,
             vehicle_count: vehicleCount,
+            avg_speed: avgSpeed,
             timestamp: new Date().toISOString()
         };
 

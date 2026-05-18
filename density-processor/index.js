@@ -57,16 +57,31 @@ async function run() {
     await consumer.run({
         eachMessage: async ({ message }) => {
             const data = JSON.parse(message.value.toString());
-            const status = data.vehicle_count > 50 ? 'CONGESTIONADA' : 'FLUIDA';
+            const vehicleCount = data.vehicle_count;
+            let density = 'FLUIDO';
+            let speed = data.avg_speed;
+
+            if (vehicleCount > 70) {
+                density = 'CONGESTIONADO';
+                if (!speed) speed = Math.floor(Math.random() * 15) + 10;
+            } else if (vehicleCount > 40) {
+                density = 'MODERADO';
+                if (!speed) speed = Math.floor(Math.random() * 25) + 25;
+            } else {
+                density = 'FLUIDO';
+                if (!speed) speed = Math.floor(Math.random() * 40) + 50;
+            }
             
             const update = {
                 zone_id: data.zone_id,
-                status: status,
+                vehicle_count: vehicleCount,
+                avg_speed: speed,
+                density: density,
                 timestamp: new Date().toISOString()
             };
 
             channel.publish(exchange, '', Buffer.from(JSON.stringify(update)));
-            console.log(`Processed: ${data.zone_id} -> ${status}`);
+            console.log(`Processed: ${data.zone_id} -> ${density} (Vehicles: ${vehicleCount}, Speed: ${speed} km/h)`);
         },
     });
 }
