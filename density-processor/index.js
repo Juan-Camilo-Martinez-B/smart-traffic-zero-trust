@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { Kafka } = require('kafkajs');
 const amqp = require('amqplib');
-const { getAuthToken } = require('../shared/auth-helper');
+const { getAuthToken, getUnsecuredKafkaToken } = require('../shared/auth-helper');
 
 const CLIENT_ID = 'density_processor';
 const CLIENT_SECRET = 'secret_processor_456';
@@ -25,7 +25,7 @@ async function run() {
         console.log('Using SASL OAUTHBEARER authentication for Kafka');
         kafkaConfig.sasl = {
             mechanism: 'oauthbearer',
-            oauthBearerProvider: async () => ({ value: token })
+            oauthBearerProvider: async () => ({ value: getUnsecuredKafkaToken('admin') })
         };
     } else {
         console.log('Local environment detected, using PLAINTEXT for Kafka');
@@ -39,7 +39,7 @@ async function run() {
 
     // 3. RabbitMQ Producer
     let rabbitOptions = {
-        credentials: amqp.credentials.plain('', token)
+        credentials: amqp.credentials.plain(CLIENT_ID, token)
     };
 
     if (RABBITMQ_URL.includes('localhost') || process.env.RABBITMQ_BYPASS_OAUTH === 'true') {

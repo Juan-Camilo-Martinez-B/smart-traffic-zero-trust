@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Kafka } = require('kafkajs');
-const { getAuthToken } = require('../shared/auth-helper');
+const { getAuthToken, getUnsecuredKafkaToken } = require('../shared/auth-helper');
 
 const CLIENT_ID = 'traffic_archiver';
 const CLIENT_SECRET = 'secret_archiver_789';
@@ -20,7 +20,7 @@ async function run() {
     if (!KAFKA_BROKER.includes('localhost')) {
         kafkaConfig.sasl = {
             mechanism: 'oauthbearer',
-            oauthBearerProvider: async () => ({ value: token })
+            oauthBearerProvider: async () => ({ value: getUnsecuredKafkaToken('admin') })
         };
     }
 

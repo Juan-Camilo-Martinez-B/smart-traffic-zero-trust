@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Kafka } = require('kafkajs');
-const { getAuthToken } = require('../shared/auth-helper');
+const { getAuthToken, getUnsecuredKafkaToken } = require('../shared/auth-helper');
 
 const CLIENT_ID = 'sensor_simulator';
 const CLIENT_SECRET = 'secret_sensor_123';
@@ -25,7 +25,7 @@ async function run() {
         console.log('Using SASL OAUTHBEARER authentication for Kafka');
         kafkaConfig.sasl = {
             mechanism: 'oauthbearer',
-            oauthBearerProvider: async () => ({ value: token })
+            oauthBearerProvider: async () => ({ value: getUnsecuredKafkaToken('admin') })
         };
     } else {
         console.log('Local environment detected, using PLAINTEXT for Kafka');

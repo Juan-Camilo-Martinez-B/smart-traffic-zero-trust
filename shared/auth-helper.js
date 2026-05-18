@@ -13,4 +13,14 @@ async function getAuthToken(clientId, clientSecret, authUrl) {
     }
 }
 
-module.exports = { getAuthToken };
+function getUnsecuredKafkaToken(sub = 'admin') {
+    const header = Buffer.from(JSON.stringify({ alg: 'none', typ: 'JWT' })).toString('base64url');
+    const payload = Buffer.from(JSON.stringify({
+        sub: sub,
+        iat: Math.floor(Date.now() / 1000),
+        exp: Math.floor(Date.now() / 1000) + 3600
+    })).toString('base64url');
+    return `${header}.${payload}.`;
+}
+
+module.exports = { getAuthToken, getUnsecuredKafkaToken };
